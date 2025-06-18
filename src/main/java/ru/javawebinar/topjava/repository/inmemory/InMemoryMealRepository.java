@@ -20,15 +20,14 @@ public class InMemoryMealRepository implements MealRepository {
     private final Map<Integer, Map<Integer, Meal>> usMeals = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
     @Autowired
-    // для проверки п.5
-    //private UserRepository userRepository;
-    private UserRepository userRepository = MealServlet.userRepository;
+    private UserRepository userRepository;
+//  private UserRepository userRepository = MealServlet.userRepository;
     private static final Logger log = LoggerFactory.getLogger(InMemoryMealRepository.class);
 
-    {
-        MealsUtil.meals.forEach(meal -> save(1, meal));
-        System.out.println("Репозиторий пользователей создан добавлен пользователь с именем= " + userRepository.get(1).getName());
-    }
+//    {
+//        MealsUtil.meals.forEach(meal -> save(1, meal));
+//        System.out.println("Репозиторий пользователей создан добавлен пользователь с именем= " + userRepository.get(1).getName());
+//    }
 
     @Override
     public Meal save(Integer usId, Meal meal) {
