@@ -10,3 +10,15 @@ VALUES ('User', 'user@yandex.ru', 'password'),
 INSERT INTO user_role (role, user_id)
 VALUES ('USER', 100000),
        ('ADMIN', 100001);
+
+DELETE FROM meals;
+
+INSERT INTO meals (dateTime, description, calories)
+VALUES ('2025-06-15 12:00:00', 'Обед', '1000'),
+       ('2025-06-15 9:00:00', 'Завтрак', '280'),
+       ('2025-06-15 18:00:00', 'Ужин', '700');
+
+INSERT INTO users_meals (user_id, meals_id)
+VALUES (100000, 100002),
+       (100000, 100004),
+       (100001, 100003);
