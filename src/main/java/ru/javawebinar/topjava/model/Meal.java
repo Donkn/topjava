@@ -15,20 +15,18 @@ public class Meal extends AbstractBaseEntity {
 
     @Column(name = "date_time", nullable = false, unique = true)
     @NotNull
-    @Size(max = 128)
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
     @NotNull
-    @Size(max = 128)
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @Range (min = 10, max = 10000)
+    @NotNull
     private int calories;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+    @JoinColumn(name ="user_id")
     private User user;
 
     public Meal() {
