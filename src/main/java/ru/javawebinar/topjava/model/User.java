@@ -156,4 +156,8 @@ public class User extends AbstractNamedEntity {
                 ", caloriesPerDay=" + caloriesPerDay +
                 '}';
     }
+
+    public static <U> U getName(Object o) {
+        return null;
+    }
 }
