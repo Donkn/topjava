@@ -6,11 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.web.SecurityUtil;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Objects;
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkIsNew;
@@ -49,9 +52,11 @@ public abstract class AbstractSetMeals {
     }
 
     @GetMapping("/meals")
-    public String getMeals(HttpServletRequest request) {
-        log.info("meals");
-        String action = request.getParameter("action");
+    public String getMeals(RedirectAttributes attributes,
+                           @RequestParam Map<String, String> param,
+                           @RequestParam(required = false) String action) {
+        log.info("/meals");
+        param.forEach(attributes::addAttribute);
         if (action != null) {
             return "redirect:/" + action;
         } else return "redirect:/getAll";

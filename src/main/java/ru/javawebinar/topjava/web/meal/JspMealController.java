@@ -32,7 +32,8 @@ public class JspMealController extends AbstractSetMeals {
     }
 
     @GetMapping("/update")
-    public String updateMeals(@RequestParam(required = false) String id, Model model) {
+    public String updateMeals(@RequestParam(required = false) String id,
+                              Model model) {
         int userId = SecurityUtil.authUserId();
         log.info("get meal {} for user {}", id, userId);
         Meal meal = mealService.get(Integer.parseInt(id), userId);
