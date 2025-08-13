@@ -4,7 +4,9 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,24 @@ public class MealsUtil {
                 .toList();
     }
 
+    public static Meal createNewfromTo(MealTo mealTo){
+        return new Meal(null, mealTo.getDateTime(), mealTo.getDescription(),mealTo.getCalories());
+    }
+
     public static MealTo createTo(Meal meal, boolean excess) {
-        return new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
+        MealTo mealTo = new MealTo();
+        mealTo.setDateTime(meal.getDateTime());
+        mealTo.setCalories(meal.getCalories());
+        mealTo.setExcess(excess);
+        return mealTo;
+    }
+
+    public static Meal updateFromTo(Meal meal, MealTo mealTo) {
+        meal.setId(mealTo.getId());
+        meal.setCalories(mealTo.getCalories());
+        meal.setDescription(mealTo.getDescription());
+        meal.setCalories(mealTo.getCalories());
+        meal.setDateTime(mealTo.getDateTime());
+        return meal;
     }
 }

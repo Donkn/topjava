@@ -1,10 +1,14 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +18,7 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.atStartOfNextDayOrMax;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MealService {
 
     private final MealRepository repository;
@@ -50,5 +55,10 @@ public class MealService {
 
     public Meal getWithUser(int id, int userId) {
         return checkNotFound(repository.getWithUser(id, userId), id);
+    }
+
+    public void update(MealTo mealTo, int userId) {
+        Meal meal = get(mealTo.getId(), userId );
+        MealsUtil.updateFromTo(meal, mealTo);
     }
 }
