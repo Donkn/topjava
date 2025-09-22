@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.UsersUtil;
 
 import java.util.List;
 
@@ -50,17 +52,28 @@ public class UserService {
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
         checkNotFound(repository.save(user), user.id());
+        //      checkNotFound :  check works only for JDBC, disabled
+        repository.save(user);
     }
+
 
     @CacheEvict(value = "users", allEntries = true)
     @Transactional
-    public void enable(int id, boolean enabled) {
-        User user = get(id);
-        user.setEnabled(enabled);
-        repository.save(user);  // !! need only for JDBC implementation
-    }
+    public void update(UserTo userTo) {
+        User user = get(userTo.id());
+        User updatedUser = UsersUtil.updateFromTo(user, userTo);
+        repository.save(updatedUser);
+    }// !! need only for JDBC implementation
 
-    public User getWithMeals(int id) {
-        return checkNotFound(repository.getWithMeals(id), id);
+        @CacheEvict(value = "users", allEntries = true)
+        @Transactional
+        public void enable ( int id, boolean enabled){
+            User user = get(id);
+            user.setEnabled(enabled);
+            repository.save(user);  // !! need only for JDBC implementation
+        }
+
+        public User getWithMeals ( int id){
+            return checkNotFound(repository.getWithMeals(id), id);
+        }
     }
-}
